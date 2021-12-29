@@ -33,7 +33,10 @@ setup(
     # Author details
     author="Adafruit Industries",
     author_email="circuitpython@adafruit.com",
-    install_requires=["adafruit-blinka", "adafruit-blinka-bleio"],
+    install_requires=[
+        "adafruit-blinka",
+        "adafruit-blinka-bleio @ git+git://github.com/kivicode/Adafruit_Blinka_bleio"
+    ],
     # Choose your license
     license="MIT",
     # See https://pypi.python.org/pypi?%3Aaction=list_classifiers
