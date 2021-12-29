@@ -78,10 +78,12 @@ class StreamIn(ComplexCharacteristic):
         timeout=1.0,
         buffer_size=64,
         properties=(Characteristic.WRITE | Characteristic.WRITE_NO_RESPONSE),
-        write_perm=Attribute.OPEN
+        write_perm=Attribute.OPEN,
+        callback=None
     ):
         self._timeout = timeout
         self._buffer_size = buffer_size
+        self._callback = callback
         super().__init__(
             uuid=uuid,
             properties=properties,
@@ -96,6 +98,6 @@ class StreamIn(ComplexCharacteristic):
         if service.remote:
             return BoundWriteStream(bound_characteristic)
         # We're the server so buffer incoming writes.
-        return _bleio.CharacteristicBuffer(
-            bound_characteristic, timeout=self._timeout, buffer_size=self._buffer_size
-        )
+        self._char_buffer = _bleio.CharacteristicBuffer(
+            bound_characteristic, timeout=self._timeout, buffer_size=self._buffer_size)
+        return self._char_buffer
